@@ -20,8 +20,10 @@ LOAD_REPORT_DELAY = 15  # seconds
 
 class Celus:
 
-    def __init__(self):
-        self.api_key = os.environ.get("CELUS_API_KEY")
+    def __init__(self, config):
+        self.api_key = config["Celus"]["api_key"]
+        if not self.api_key:
+            raise EnvironmentError("No CELUS_API_KEY found")
         self.headers = {
             "Content-Type": "application/json",
             "Authorization": f"Api-Key {self.api_key}",

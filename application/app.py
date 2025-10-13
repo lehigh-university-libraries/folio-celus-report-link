@@ -1,17 +1,34 @@
+from configparser import ConfigParser
 from flask import (
     Flask,
     make_response,
     request,
 )
+import os
 
 from application.celus import Celus
 
-celus = Celus()
+celus = None
+config = None
 
 
 def create_app():
+    global celus
+
     app = Flask(__name__)
+    init_config()
+    celus = Celus(config)
     return app
+
+
+def init_config():
+    global config
+    config = ConfigParser()
+    dir = os.path.dirname(__file__)
+    dir = os.path.dirname(dir)
+    config_path = os.path.join(dir, "config", "config.properties")
+    with open(config_path, "r", encoding="utf-8") as f:
+        config.read_file(f)
 
 
 app = create_app()
@@ -36,7 +53,3 @@ def get_report():
     else:
         response_code = 200
     return make_response(response_data, response_code)
-
-
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
