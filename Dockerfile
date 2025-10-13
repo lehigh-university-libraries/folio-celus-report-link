@@ -15,7 +15,7 @@ RUN apt-get update \
 COPY requirements.txt /app
 RUN pip install --no-cache-dir -r /app/requirements.txt
 
-ENV FLASK_APP=CelusReportLink \
+ENV FLASK_APP=FolioCelusReportLink \
     ADDRESS=0.0.0.0 \
     PORT=8080 \
     WORKERS=4 \
