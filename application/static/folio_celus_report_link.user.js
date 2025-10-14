@@ -23,6 +23,10 @@
         const label = generateReportButton.querySelector('span > span > span');
         label.innerText = 'Export CELUS report (XLS)';
         generateReportButton.addEventListener("click", showDialog);
+        const reportId = getReportId();
+        if (reportId == null) {
+            generateReportButton.disabled = true;
+        }
         exportAgreementButton.insertAdjacentElement('afterend', generateReportButton);
         console.log("Added CELUS Report button")
     };
@@ -50,9 +54,15 @@
         stylesTemplate.innerHTML = `
           <style>
             .generate-celus-report-dialog {
+              h1 {
+                margin-top: 0;
+              }
               div {
                 margin-top: 1rem;
               }
+              label {
+                 display: inline-block;
+                 min-width: 50px;
             }
           </style>
         `.trim();
@@ -60,16 +70,16 @@
 
         const template = document.createElement('template');
         template.innerHTML = `
-        <dialog class="generate-celus-report-dialog">
+        <dialog class="generate-celus-report-dialog" closedby="any">
             <!-- <form class="lehigh-form" method="dialog"> -->
                 <h1>Generate CELUS Report</h1>
                 <div>
                     <label for="celus-from">From:</label>
-                    <input type="text" id="celus-from"/>
+                    <input type="date" id="celus-from"/>
                 </div>
                 <div>
                     <label for="celus-from">To:</label>
-                    <input type="text" id="celus-to"/>
+                    <input type="date" id="celus-to"/>
                 </div>
                 <div>
                     <input type="submit" class="celus-submit-button" value="Generate"/>
@@ -84,9 +94,12 @@
        document.body.append(template.content.cloneNode(true));
 
        document.querySelector('.celus-submit-button').addEventListener('click', () => {
+           const reportId = getReportId();
+           const fromDate = document.getElementById('celus-from').value;
+           const toDate = document.getElementById('celus-to').value;
            GM_xmlhttpRequest({
                method: "GET",
-               url: "http://localhost:8080/report?id=267&from=2025-01-01&to=2025-03-31",
+               url: `http://localhost:8080/report?id=${reportId}&from=${fromDate}&to=${toDate}`,
                responseType: "json",
                onload: (response) => {
                    if (response.status == 200) {
@@ -96,6 +109,8 @@
                        link.innerText = 'Download Report';
                        link.setAttribute('href', outputFile);
                        document.querySelector('.celus_output').append(link);
+
+                       document.querySelector('.celus-submit-button').disabled = true;
                    }
                },
 
@@ -105,6 +120,16 @@
 
     const showDialog = () => {
         document.querySelector('.generate-celus-report-dialog').showModal();
+    };
+
+    const getReportId = () => {
+        const section = document.getElementById("supplementaryProperties-accordion-Usage Repoting");
+        if (section == null) {
+            console.log("No usage reporting id.");
+            return null;
+        }
+        const reportId = section.querySelector('div[data-test-kv-value="true"]').innerHTML;
+        return reportId;
     };
 
     buildInputDialog();
