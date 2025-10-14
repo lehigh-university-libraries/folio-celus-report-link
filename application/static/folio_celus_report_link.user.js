@@ -119,6 +119,11 @@
     };
 
     const showDialog = () => {
+        document.getElementById('celus-from').value = '';
+        document.getElementById('celus-to').value = '';
+        document.querySelector('.celus-submit-button').disabled = false;
+        document.querySelector('.celus_output').innerHTML = '';
+
         document.querySelector('.generate-celus-report-dialog').showModal();
     };
 
