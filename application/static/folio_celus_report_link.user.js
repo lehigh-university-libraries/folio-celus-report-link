@@ -128,7 +128,7 @@
     };
 
     const getReportId = () => {
-        const section = document.getElementById("supplementaryProperties-accordion-Usage Repoting");
+        const section = document.getElementById("supplementaryProperties-accordion-Usage Reporting");
         if (section == null) {
             console.log("No usage reporting id.");
             return null;
