@@ -67,7 +67,7 @@ class Celus:
                 "end_date": end_date,
             }
             response = requests.post(
-                BASE_URL + "/reporting-export", json=payload, headers=self.headers
+                BASE_URL + "/reporting-export/", json=payload, headers=self.headers
             )
             response.raise_for_status()
             data = response.json()
@@ -81,7 +81,7 @@ class Celus:
     def check_export_status(self, export_id):
         logger.info("Check export status")
         response = requests.get(
-            BASE_URL + "/reporting-export/" + str(export_id), headers=self.headers
+            BASE_URL + "/reporting-export/" + str(export_id) + "/", headers=self.headers
         )
         response.raise_for_status()
         data = response.json()
