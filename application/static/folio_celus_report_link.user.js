@@ -3,11 +3,14 @@
 // @namespace    http://lts.lehigh.edu/
 // @version      2025-10-14a
 // @description  Open a link to a CELUS report within a FOLIO Organization
-// @author       You
+// @author       Maccabee Levine <msl321@lehigh.edu>
 // @match        https://*.folio.indexdata.com/erm/agreements/*
 // @connect      localhost
+// @connect      lehigh.edu
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=undefined.localhost
 // @grant        GM_xmlhttpRequest
+// @grant        GM_getValue
+// @grant        GM_setValue
 // ==/UserScript==
 
 (function () {
@@ -97,9 +100,10 @@
            const reportId = getReportId();
            const fromDate = document.getElementById('celus-from').value;
            const toDate = document.getElementById('celus-to').value;
+           const baseUrl = GM_getValue('baseUrl');
            GM_xmlhttpRequest({
                method: "GET",
-               url: `http://localhost:8080/report?id=${reportId}&from=${fromDate}&to=${toDate}`,
+               url: `${baseUrl}/report?id=${reportId}&from=${fromDate}&to=${toDate}`,
                responseType: "json",
                onload: (response) => {
                    if (response.status == 200) {
@@ -117,6 +121,8 @@
            });
        });
     };
+
+    buildInputDialog();
 
     const showDialog = () => {
         document.getElementById('celus-from').value = '';
@@ -137,5 +143,18 @@
         return reportId;
     };
 
-    buildInputDialog();
+    const checkKey = (key, label) => {
+        let value = GM_getValue(key);
+        if (value == null) {
+            value = prompt(label + " for CELUS integration");
+            GM_setValue(key, value);
+        }
+    };
+
+    const checkFirstRun = () => {
+        checkKey("baseUrl", 'Server base URL')
+    };
+
+    checkFirstRun();
+
 })();
