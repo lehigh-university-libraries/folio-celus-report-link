@@ -6,8 +6,11 @@
 // @author       Maccabee Levine <msl321@lehigh.edu>
 // @match        https://*.folio.indexdata.com/erm/agreements/*
 // @connect      localhost
+// @connect      lehigh.edu
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=undefined.localhost
 // @grant        GM_xmlhttpRequest
+// @grant        GM_getValue
+// @grant        GM_setValue
 // ==/UserScript==
 
 (function () {
@@ -140,12 +143,6 @@
         return reportId;
     };
 
-    const checkFirstRun = () => {
-        checkKey("baseUrl", 'Server base URL')
-    };
-
-    checkFirstRun();
-
     const checkKey = (key, label) => {
         let value = GM_getValue(key);
         if (value == null) {
@@ -153,5 +150,11 @@
             GM_setValue(key, value);
         }
     };
+
+    const checkFirstRun = () => {
+        checkKey("baseUrl", 'Server base URL')
+    };
+
+    checkFirstRun();
 
 })();
