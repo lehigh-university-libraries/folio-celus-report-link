@@ -65,9 +65,5 @@ One approach is just to fork this repo on GitHub, and edit the script in your fo
 1. Enable the extension to "Allow User Scripts".  In Chrome, open the Extensions Manager (chrome://extensions/), find Tampermonkey, then Details > Allow User Scripts.
 1. Install the FOLIO Celus Report Link user script by opening this URL: https://github.com/YOUR_GITHUB_ORG_WHERE_YOU_FORKED_THIS_REPO/lehigh-university-libraries/folio-celus-report-link/raw/refs/heads/main/application/static/folio_celus_report_link.user.js
     1. Note that you will need to change the URL to reflect where you are hosting the script.
-
-Configure within FOLIO
-
-After Data Preparation above.
-
-1. Open any agreement record.  The first time, you will be prompted to enter a server base URL where the web service portion of this integration is deployed. 
+1. Open any agreement record in FOLIO.  The first time, you will be prompted to enter a server base URL where the web service portion of this integration is deployed.
+    - i.e. https://server.institution.edu/celus-report
