@@ -85,7 +85,7 @@
                     <input type="date" id="celus-to"/>
                 </div>
                 <div>
-                    <input type="submit" class="celus-submit-button" value="Generate"/>
+                    <input type="submit" class="celus-submit-button" value=""/>
                 </div>
                 <div class="celus_output">
                 </div>
@@ -101,6 +101,8 @@
            const fromDate = document.getElementById('celus-from').value;
            const toDate = document.getElementById('celus-to').value;
            const baseUrl = GM_getValue('baseUrl');
+           document.querySelector('.celus-submit-button').disabled = true;
+           document.querySelector('.celus-submit-button').value = "Generating...";
            GM_xmlhttpRequest({
                method: "GET",
                url: `${baseUrl}/report?id=${reportId}&from=${fromDate}&to=${toDate}`,
@@ -113,11 +115,9 @@
                        link.innerText = 'Download Report';
                        link.setAttribute('href', outputFile);
                        document.querySelector('.celus_output').append(link);
-
-                       document.querySelector('.celus-submit-button').disabled = true;
+                       document.querySelector('.celus-submit-button').value = "Done";
                    }
                },
-
            });
        });
     };
@@ -129,6 +129,7 @@
         document.getElementById('celus-to').value = '';
         document.querySelector('.celus-submit-button').disabled = false;
         document.querySelector('.celus_output').innerHTML = '';
+        document.querySelector('.celus-submit-button').value = "Generate";
 
         document.querySelector('.generate-celus-report-dialog').showModal();
     };
