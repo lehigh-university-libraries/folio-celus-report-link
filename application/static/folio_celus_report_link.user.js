@@ -143,7 +143,7 @@
         return reportId;
     };
 
-    const checkKey = (key, label) => {
+    const checkKey = (key, label, suggestion) => {
         let value = GM_getValue(key);
         if (value == null) {
             value = prompt(label + " for CELUS integration");
@@ -152,7 +152,7 @@
     };
 
     const checkFirstRun = () => {
-        checkKey("baseUrl", 'Server base URL')
+        checkKey("baseUrl", 'Server base URL', 'https://server.institution.edu/celus-report')
     };
 
     checkFirstRun();
