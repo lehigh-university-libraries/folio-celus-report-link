@@ -1,3 +1,9 @@
 [Celus]
 
 api_key = 1234567890
+
+# Give up on CELUS API after (seconds)
+load_report_timeout = 45
+
+# Retry every (seconds)
+load_report_delay = 5
