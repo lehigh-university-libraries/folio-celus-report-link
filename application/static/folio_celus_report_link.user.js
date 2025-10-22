@@ -146,7 +146,7 @@
     const checkKey = (key, label, suggestion) => {
         let value = GM_getValue(key);
         if (value == null) {
-            value = prompt(label + " for CELUS integration");
+            value = prompt(label + " for CELUS integration", suggestion);
             GM_setValue(key, value);
         }
     };
