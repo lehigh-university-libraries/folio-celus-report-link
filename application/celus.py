@@ -14,21 +14,27 @@ JOB_STATUS_NOT_STARTED = 0
 JOB_STATUS_RUNNING = 1
 JOB_STATUS_FINISHED = 2
 
-LOAD_REPORT_TIMEOUT = 45  # seconds
-LOAD_REPORT_DELAY = 15  # seconds
-
 
 class Celus:
 
     def __init__(self, config):
-        self.api_key = config["Celus"]["api_key"]
-        if not self.api_key:
-            raise EnvironmentError("No CELUS_API_KEY found")
+        self.init_config(config)
         self.headers = {
             "Content-Type": "application/json",
             "Authorization": f"Api-Key {self.api_key}",
         }
         pass
+
+    def init_config(self, config):
+        self.init_config_item(config, "Celus", "api_key")
+        self.init_config_item(config, "Celus", "load_report_timeout", "int")
+        self.init_config_item(config, "Celus", "load_report_delay", "int")
+
+    def init_config_item(self, config, section, key, valueType="str"):
+        value = config.get(section, key)
+        if valueType == "int":
+            value = int(value)
+        setattr(self, key, value)
 
     def generate_report(self, report_id, start_date, end_date):
         # Start the report export
@@ -41,7 +47,7 @@ class Celus:
 
         # Retry periodically until the report is ready
         start_time = time.time()
-        while time.time() - start_time < LOAD_REPORT_TIMEOUT:
+        while time.time() - start_time < self.load_report_timeout:
             report_data = self.check_export_status(export_id)
             if not report_data:
                 return None
@@ -49,9 +55,12 @@ class Celus:
                 return report_data
 
             # Pause an try again, if time timeout won't be reached
-            if time.time() - start_time + LOAD_REPORT_DELAY < LOAD_REPORT_TIMEOUT:
+            if (
+                time.time() - start_time + self.load_report_delay
+                < self.load_report_timeout
+            ):
                 logger.info("Waiting before trying again.")
-                time.sleep(LOAD_REPORT_DELAY)
+                time.sleep(self.load_report_delay)
             else:
                 break
 
