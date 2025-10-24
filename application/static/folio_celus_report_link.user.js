@@ -24,7 +24,7 @@
         const generateReportButton = exportAgreementButton.cloneNode(true);
         generateReportButton.id = celusReportButtonId;
         const label = generateReportButton.querySelector('span > span > span');
-        label.innerText = 'Export CELUS report (XLS)';
+        label.innerText = 'Export CELUS report (XLSX)';
         generateReportButton.addEventListener("click", showDialog);
         const reportId = getReportId();
         if (reportId == null) {
