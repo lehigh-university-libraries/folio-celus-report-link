@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         FOLIO CELUS Report Link
 // @namespace    http://lts.lehigh.edu/
-// @version      2025-10-14a
+// @version      2025-10-24
 // @description  Open a link to a CELUS report within a FOLIO Organization
 // @author       Maccabee Levine <msl321@lehigh.edu>
 // @match        https://*.folio.indexdata.com/erm/agreements/*
