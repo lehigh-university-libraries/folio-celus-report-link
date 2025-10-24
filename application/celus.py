@@ -74,6 +74,7 @@ class Celus:
                 "report": report_id,
                 "start_date": start_date,
                 "end_date": end_date,
+                "file_format": "XLSX",
             }
             response = requests.post(
                 BASE_URL + "/reporting-export/", json=payload, headers=self.headers
