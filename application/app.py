@@ -5,6 +5,7 @@ from flask import (
     request,
 )
 import os
+import logging
 
 from application.celus import Celus
 
@@ -53,3 +54,17 @@ def get_report():
     else:
         response_code = 200
     return make_response(response_data, response_code)
+
+
+@app.route("/healthcheck")
+def healthcheck():
+    return "OK"
+
+
+class HealthCheckFilter(logging.Filter):
+    def filter(self, record: logging.LogRecord) -> bool:
+        return record.getMessage().find("/healthcheck") == -1
+
+
+# Remove /healthcheck from application server logs
+logging.getLogger("gunicorn.access").addFilter(HealthCheckFilter())
