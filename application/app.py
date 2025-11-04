@@ -63,7 +63,7 @@ def healthcheck():
 
 class HealthCheckFilter(logging.Filter):
     def filter(self, record: logging.LogRecord) -> bool:
-        return record.getMessage().find("/healthcheck") == -1
+        return record.getMessage().find("healthcheck") == -1
 
 
 # Remove /healthcheck from application server logs
