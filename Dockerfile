@@ -1,4 +1,4 @@
-FROM ghcr.io/lehigh-university-libraries/python3.13:main@sha256:46731c8d3efc11d8748996be972b8a163571acf5a84a714efde5ad92b0cefbc6
+FROM ghcr.io/lehigh-university-libraries/python3.13:main@sha256:cd06431dd7491603b36aa2e12c60959b6b5f39fa008241fbffba5921b6b9443d
 
 WORKDIR /app
 
